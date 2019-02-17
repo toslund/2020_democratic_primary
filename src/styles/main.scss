@@ -1,0 +1,93 @@
+// Import a Google Font
+//@import url('https://fonts.googleapis.com/css?family=Montserrat|Oswald|Fredericka+the+Great');
+
+// Update Bulma's global variables
+//$family-sans-serif: "Montserrat", sans-serif;
+//$family-primary: "Montserrat", sans-serif;
+//$family-secondary: "Oswald", sans-serif;
+
+$democrat-blue: #0015BC;
+$democrat-blue-tint: #99a1e4;
+//$link: $black;
+
+.slider {
+  -webkit-appearance: none;  /* Override default CSS styles */
+  appearance: none;
+  width: 100%; /* Full-width */
+  height: 25px; /* Specified height */
+  background: #d3d3d3; /* Grey background */
+  outline: none; /* Remove outline */
+  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+  transition: opacity .2s;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  background: $democrat-blue;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  background: $democrat-blue;
+  cursor: pointer;
+}
+
+.button.is-democrat-blue, .button.is-democrat-blue:hover{
+    background-color: $democrat-blue;
+    border-color: transparent;
+    color: white;
+}
+
+.button.is-democrat-blue-tint {
+    background-color: $democrat-blue-tint;
+    border-color: transparent;
+    color: black;
+}
+
+//#main-nav .router-link-exact-active, a:hover {
+//    border-bottom: 1px solid;
+//  }
+
+//.blurred {
+//  filter: blur(4px);
+//}
+
+//.has-no-outline {
+//  border: none;
+//}
+
+//pre {
+//    -webkit-overflow-scrolling: touch;
+//    background-color: #f5f5f5;
+//    color: #4a4a4a;
+//    font-size: .875em;
+//    overflow-x: auto;
+//    padding: 1.25rem 1.5rem;
+//    white-space: pre;
+//    word-wrap: normal;
+//}
+//
+//pre code {
+//    background-color: transparent;
+//    color: currentColor;
+//    font-size: 1em;
+//    padding: 0;
+//}
+//
+//code {
+//    background-color: #f5f5f5;
+//    color: #ff3860;
+//    font-size: .875em;
+//    font-weight: 400;
+//    padding: .25em .5em .25em;
+//}
+
+@import '~bulma/bulma';
+//@import '~@fortawesome/fontawesome-free/css/all.css';
+
