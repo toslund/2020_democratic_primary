@@ -51,6 +51,8 @@
                     <input class="slider is-fullwidth" step="1" min="-1" max="15" v-model="sliderstep" type="range">
                 </div>
             </div>
+            <div class="columns is-centered">
+                <div class="column">
           <svg xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="us-map" preserveAspectRatio="xMinYMin meet" sodipodi:docname="Republican_Party_presidential_primaries_results,_2016.svg" inkscape:version="0.91 r13725" x="0px" y="0px" width="959px" height="593px" viewBox="174 100 959 593" enable-background="new 174 100 959 593" xml:space="preserve">
       <sodipodi:namedview bordercolor="#666666" objecttolerance="10" pagecolor="#ffffff" borderopacity="1" gridtolerance="10" guidetolerance="10" inkscape:cx="509.19152" inkscape:cy="282.2353" inkscape:zoom="1.2137643" showgrid="false" id="namedview71" inkscape:current-layer="g5" inkscape:window-maximized="1" inkscape:window-y="-8" inkscape:window-x="-8" inkscape:pageopacity="0" inkscape:window-height="1017" inkscape:window-width="1920" inkscape:pageshadow="2">
       </sodipodi:namedview>
@@ -118,8 +120,53 @@
       <path id="path67" fill="none" stroke="#A9A9A9" stroke-width="2" d="M385,593v55l36,45 M174,525h144l67,68h86l53,54v46"/>
 
       </svg>
+                </div>
+                <div class="column is-half-desktop has-text-centered">
+                      <div class="tabs is-small is-centered">
+                          <ul>
+                            <li v-for="state in selectedStates" v-bind:class="{ 'is-active': state == selectedState }" v-on:click="clickState(state)"><a>{{ state }}</a></li>
+                          </ul>
+                        </div>
+                    <div class="columns is-centererd">
+                    <div v-if="compDate" class="column is-narrow">
+                        <h5 class="title is-5">{{ selectedState }}</h5>
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th>Candidate</th>
+                              <th>Percentage</th>
+                              <th>Delegates</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr v-for="candidate in candidates">
+                              <th>{{ candidate.name }}</th>
+                              <td><input class="input is-primary" v-model="candidate['states'][selectedState].percent" @input="calculateDelegates(candidate.name, selectedState)"></td>
+                              <td>{{ candidate['states'][selectedState].delegates }}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                    </div>
+                    <div class="column" v-else>
+                        Use the slider or calendar to select a date. Then, select a state.
+                    </div>
+                    </div>
+                  </div>
+            </div>
               </div>
             </section>
+      <section class="section">
+          <div class="container">
+              <div class="columns is-centered">
+                  <div class="column" v-for="candidate in candidates">
+                      <img v-bind:src="candidate.href"/>
+                  </div>
+              </div>
+          </div>
+      </section>
+      <section class="section">
+
+      </section>
   </div>
 
 </template>
@@ -131,7 +178,10 @@ export default {
   data() {
     return {
         date: null,
-        sliderstep: 0,
+        inFocus: null,
+        clickedState: null,
+        foobar: null,
+        sliderstep: -1,
         primary_dates: [
             '03 Feb 2020 00:00:00 GMT',
             '11 Feb 2020 00:00:00 GMT',
@@ -204,6 +254,60 @@ export default {
             'District of Columbia': '16 Jun 2020 00:00:00 GMT',
             'Puerto Rico': '07 Jun 2020 00:00:00 GMT'
         },
+        primaries_all_: {
+            'Alabama': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': null},
+            'Alaska': {'date': null, 'delegates': null},
+            'Arizona': {'date': '17 Mar 2020 00:00:00 GMT', 'delegates': null},
+            'Arkansas': {'date': '19 May 2020 00:00:00 GMT', 'delegates': null},
+            'California': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': null},
+            'Colorado': {'date': null, 'delegates': null},
+            'Connecticut': {'date': '28 Apr 2020 00:00:00 GMT', 'delegates': null},
+            'Delaware': {'date': '28 Apr 2020 00:00:00 GMT', 'delegates': null},
+            'Florida': {'date': '17 Mar 2020 00:00:00 GMT', 'delegates': null},
+            'Georgia': {'date': null, 'delegates': null},
+            'Hawaii': {'date': null, 'delegates': null},
+            'Idaho': {'date': null, 'delegates': null},
+            'Illinois': {'date': '17 Mar 2020 00:00:00 GMT', 'delegates': null},
+            'Indiana': {'date': '05 May 2020 00:00:00 GMT', 'delegates': null},
+            'Iowa': {'date': '03 Feb 2020 00:00:00 GMT', 'delegates': null},
+            'Kansas': {'date': null, 'delegates': null},
+            'Kentucky': {'date': '19 May 2020 00:00:00 GMT', 'delegates': null},
+            'Louisiana': {'date': '07 Mar 2020 00:00:00 GMT', 'delegates': null},
+            'Maine': {'date': null, 'delegates': null},
+            'Maryland': {'date': '28 Apr 2020 00:00:00 GMT', 'delegates': null},
+            'Massachusetts': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': null},
+            'Michigan': {'date': '10 Mar 2020 00:00:00 GMT', 'delegates': null},
+            'Minnesota': {'date': null, 'delegates': null},
+            'Mississippi': {'date': '10 Mar 2020 00:00:00 GMT', 'delegates': null},
+            'Missouri': {'date': '10 Mar 2020 00:00:00 GMT', 'delegates': null},
+            'Montana': {'date': '02 Jun 2020 00:00:00 GMT', 'delegates': null},
+            'Nebraska': {'date': null, 'delegates': null},
+            'Nevada': {'date': '22 Feb 2020 00:00:00 GMT', 'delegates': null},
+            'New Hampshire': {'date': '11 Feb 2020 00:00:00 GMT', 'delegates': null},
+            'New Jersey': {'date': '02 Jun 2020 00:00:00 GMT', 'delegates': null},
+            'New Mexico': {'date': '02 Jun 2020 00:00:00 GMT', 'delegates': null},
+            'New York': {'date': null, 'delegates': null},
+            'North Carolina': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': null},
+            'North Dakota': {'date': null, 'delegates': null},
+            'Ohio': {'date': '10 Mar 2020 00:00:00 GMT', 'delegates': null},
+            'Oklahoma': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': null},
+            'Oregon': {'date': '19 May 2020 00:00:00 GMT', 'delegates': null},
+            'Pennsylvania': {'date': '28 Apr 2020 00:00:00 GMT', 'delegates': null},
+            'Rhode Island': {'date': '28 Apr 2020 00:00:00 GMT', 'delegates': null},
+            'South Carolina': {'date': '29 Feb 2020 00:00:00 GMT', 'delegates': null},
+            'South Dakota': {'date': '02 Jun 2020 00:00:00 GMT', 'delegates': null},
+            'Tennessee': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': null},
+            'Texas': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': null},
+            'Utah': {'date': null, 'delegates': null},
+            'Vermont': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': null},
+            'Virginia': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': null},
+            'Washington': {'date': null, 'delegates': null},
+            'West Virginia': {'date': '12 May 2020 00:00:00 GMT', 'delegates': null},
+            'Wisconsin': {'date': '07 Apr 2020 00:00:00 GMT', 'delegates': null},
+            'Wyoming': {'date': null, 'delegates': null},
+            'District of Columbia': {'date': '16 Jun 2020 00:00:00 GMT', 'delegates': null},
+            'Puerto Rico': {'date': '07 Jun 2020 00:00:00 GMT', 'delegates': null}
+        },
         primaries: {'03 Feb 2020 00:00:00 GMT': ['Iowa'],
             '11 Feb 2020 00:00:00 GMT': ['New Hampshire'],
             '22 Feb 2020 00:00:00 GMT': ['Nevada'],
@@ -220,6 +324,17 @@ export default {
             '02 Jun 2020 00:00:00 GMT': ['Montana', 'New Jersey', 'New Mexico', 'South Dakota'],
             '07 Jun 2020 00:00:00 GMT': ['Puerto Rico'],
             '16 Jun 2020 00:00:00 GMT': ['District of Columbia']},
+        candidates: {
+            'Cory Booker': {'name': 'Cory Booker', 'href': require('../assets/cory_booker_500.jpg'), 'states': {'Alabama': {'percentVote': null, 'delegates': null}, 'Alaska': {'percentVote': null, 'delegates': null}, 'Arizona': {'percentVote': null, 'delegates': null}, 'Arkansas': {'percentVote': null, 'delegates': null}, 'California': {'percentVote': null, 'delegates': null}, 'Colorado': {'percentVote': null, 'delegates': null}, 'Connecticut': {'percentVote': null, 'delegates': null}, 'Delaware': {'percentVote': null, 'delegates': null}, 'Florida': {'percentVote': null, 'delegates': null}, 'Georgia': {'percentVote': null, 'delegates': null}, 'Hawaii': {'percentVote': null, 'delegates': null}, 'Idaho': {'percentVote': null, 'delegates': null}, 'Illinois': {'percentVote': null, 'delegates': null}, 'Indiana': {'percentVote': null, 'delegates': null}, 'Iowa': {'percentVote': null, 'delegates': null}, 'Kansas': {'percentVote': null, 'delegates': null}, 'Kentucky': {'percentVote': null, 'delegates': null}, 'Louisiana': {'percentVote': null, 'delegates': null}, 'Maine': {'percentVote': null, 'delegates': null}, 'Maryland': {'percentVote': null, 'delegates': null}, 'Massachusetts': {'percentVote': null, 'delegates': null}, 'Michigan': {'percentVote': null, 'delegates': null}, 'Minnesota': {'percentVote': null, 'delegates': null}, 'Mississippi': {'percentVote': null, 'delegates': null}, 'Missouri': {'percentVote': null, 'delegates': null}, 'Montana': {'percentVote': null, 'delegates': null}, 'Nebraska': {'percentVote': null, 'delegates': null}, 'Nevada': {'percentVote': null, 'delegates': null}, 'New Hampshire': {'percentVote': null, 'delegates': null}, 'New Jersey': {'percentVote': null, 'delegates': null}, 'New Mexico': {'percentVote': null, 'delegates': null}, 'New York': {'percentVote': null, 'delegates': null}, 'North Carolina': {'percentVote': null, 'delegates': null}, 'North Dakota': {'percentVote': null, 'delegates': null}, 'Ohio': {'percentVote': null, 'delegates': null}, 'Oklahoma': {'percentVote': null, 'delegates': null}, 'Oregon': {'percentVote': null, 'delegates': null}, 'Pennsylvania': {'percentVote': null, 'delegates': null}, 'Rhode Island': {'percentVote': null, 'delegates': null}, 'South Carolina': {'percentVote': null, 'delegates': null}, 'South Dakota': {'percentVote': null, 'delegates': null}, 'Tennessee': {'percentVote': null, 'delegates': null}, 'Texas': {'percentVote': null, 'delegates': null}, 'Utah': {'percentVote': null, 'delegates': null}, 'Vermont': {'percentVote': null, 'delegates': null}, 'Virginia': {'percentVote': null, 'delegates': null}, 'Washington': {'percentVote': null, 'delegates': null}, 'West Virginia': {'percentVote': null, 'delegates': null}, 'Wisconsin': {'percentVote': null, 'delegates': null}, 'Wyoming': {'percentVote': null, 'delegates': null}, 'District of Columbia': {'percentVote': null, 'delegates': null}, 'Puerto Rico': {'percentVote': null, 'delegates': null}}},
+            'Pete Buttigieg': {'name': 'Pete Buttigieg', 'href': require('../assets/pete_buttigieg_500.jpg'), 'states': {'Alabama': {'percentVote': null, 'delegates': null}, 'Alaska': {'percentVote': null, 'delegates': null}, 'Arizona': {'percentVote': null, 'delegates': null}, 'Arkansas': {'percentVote': null, 'delegates': null}, 'California': {'percentVote': null, 'delegates': null}, 'Colorado': {'percentVote': null, 'delegates': null}, 'Connecticut': {'percentVote': null, 'delegates': null}, 'Delaware': {'percentVote': null, 'delegates': null}, 'Florida': {'percentVote': null, 'delegates': null}, 'Georgia': {'percentVote': null, 'delegates': null}, 'Hawaii': {'percentVote': null, 'delegates': null}, 'Idaho': {'percentVote': null, 'delegates': null}, 'Illinois': {'percentVote': null, 'delegates': null}, 'Indiana': {'percentVote': null, 'delegates': null}, 'Iowa': {'percentVote': null, 'delegates': null}, 'Kansas': {'percentVote': null, 'delegates': null}, 'Kentucky': {'percentVote': null, 'delegates': null}, 'Louisiana': {'percentVote': null, 'delegates': null}, 'Maine': {'percentVote': null, 'delegates': null}, 'Maryland': {'percentVote': null, 'delegates': null}, 'Massachusetts': {'percentVote': null, 'delegates': null}, 'Michigan': {'percentVote': null, 'delegates': null}, 'Minnesota': {'percentVote': null, 'delegates': null}, 'Mississippi': {'percentVote': null, 'delegates': null}, 'Missouri': {'percentVote': null, 'delegates': null}, 'Montana': {'percentVote': null, 'delegates': null}, 'Nebraska': {'percentVote': null, 'delegates': null}, 'Nevada': {'percentVote': null, 'delegates': null}, 'New Hampshire': {'percentVote': null, 'delegates': null}, 'New Jersey': {'percentVote': null, 'delegates': null}, 'New Mexico': {'percentVote': null, 'delegates': null}, 'New York': {'percentVote': null, 'delegates': null}, 'North Carolina': {'percentVote': null, 'delegates': null}, 'North Dakota': {'percentVote': null, 'delegates': null}, 'Ohio': {'percentVote': null, 'delegates': null}, 'Oklahoma': {'percentVote': null, 'delegates': null}, 'Oregon': {'percentVote': null, 'delegates': null}, 'Pennsylvania': {'percentVote': null, 'delegates': null}, 'Rhode Island': {'percentVote': null, 'delegates': null}, 'South Carolina': {'percentVote': null, 'delegates': null}, 'South Dakota': {'percentVote': null, 'delegates': null}, 'Tennessee': {'percentVote': null, 'delegates': null}, 'Texas': {'percentVote': null, 'delegates': null}, 'Utah': {'percentVote': null, 'delegates': null}, 'Vermont': {'percentVote': null, 'delegates': null}, 'Virginia': {'percentVote': null, 'delegates': null}, 'Washington': {'percentVote': null, 'delegates': null}, 'West Virginia': {'percentVote': null, 'delegates': null}, 'Wisconsin': {'percentVote': null, 'delegates': null}, 'Wyoming': {'percentVote': null, 'delegates': null}, 'District of Columbia': {'percentVote': null, 'delegates': null}, 'Puerto Rico': {'percentVote': null, 'delegates': null}}},
+            'Julian Castro': {'name': 'Julian Castro', 'href': require('../assets/julian_castro_500.jpg'), 'states': {'Alabama': {'percentVote': null, 'delegates': null}, 'Alaska': {'percentVote': null, 'delegates': null}, 'Arizona': {'percentVote': null, 'delegates': null}, 'Arkansas': {'percentVote': null, 'delegates': null}, 'California': {'percentVote': null, 'delegates': null}, 'Colorado': {'percentVote': null, 'delegates': null}, 'Connecticut': {'percentVote': null, 'delegates': null}, 'Delaware': {'percentVote': null, 'delegates': null}, 'Florida': {'percentVote': null, 'delegates': null}, 'Georgia': {'percentVote': null, 'delegates': null}, 'Hawaii': {'percentVote': null, 'delegates': null}, 'Idaho': {'percentVote': null, 'delegates': null}, 'Illinois': {'percentVote': null, 'delegates': null}, 'Indiana': {'percentVote': null, 'delegates': null}, 'Iowa': {'percentVote': null, 'delegates': null}, 'Kansas': {'percentVote': null, 'delegates': null}, 'Kentucky': {'percentVote': null, 'delegates': null}, 'Louisiana': {'percentVote': null, 'delegates': null}, 'Maine': {'percentVote': null, 'delegates': null}, 'Maryland': {'percentVote': null, 'delegates': null}, 'Massachusetts': {'percentVote': null, 'delegates': null}, 'Michigan': {'percentVote': null, 'delegates': null}, 'Minnesota': {'percentVote': null, 'delegates': null}, 'Mississippi': {'percentVote': null, 'delegates': null}, 'Missouri': {'percentVote': null, 'delegates': null}, 'Montana': {'percentVote': null, 'delegates': null}, 'Nebraska': {'percentVote': null, 'delegates': null}, 'Nevada': {'percentVote': null, 'delegates': null}, 'New Hampshire': {'percentVote': null, 'delegates': null}, 'New Jersey': {'percentVote': null, 'delegates': null}, 'New Mexico': {'percentVote': null, 'delegates': null}, 'New York': {'percentVote': null, 'delegates': null}, 'North Carolina': {'percentVote': null, 'delegates': null}, 'North Dakota': {'percentVote': null, 'delegates': null}, 'Ohio': {'percentVote': null, 'delegates': null}, 'Oklahoma': {'percentVote': null, 'delegates': null}, 'Oregon': {'percentVote': null, 'delegates': null}, 'Pennsylvania': {'percentVote': null, 'delegates': null}, 'Rhode Island': {'percentVote': null, 'delegates': null}, 'South Carolina': {'percentVote': null, 'delegates': null}, 'South Dakota': {'percentVote': null, 'delegates': null}, 'Tennessee': {'percentVote': null, 'delegates': null}, 'Texas': {'percentVote': null, 'delegates': null}, 'Utah': {'percentVote': null, 'delegates': null}, 'Vermont': {'percentVote': null, 'delegates': null}, 'Virginia': {'percentVote': null, 'delegates': null}, 'Washington': {'percentVote': null, 'delegates': null}, 'West Virginia': {'percentVote': null, 'delegates': null}, 'Wisconsin': {'percentVote': null, 'delegates': null}, 'Wyoming': {'percentVote': null, 'delegates': null}, 'District of Columbia': {'percentVote': null, 'delegates': null}, 'Puerto Rico': {'percentVote': null, 'delegates': null}}},
+            'John Delaney': {'name': 'John Delaney', 'href': require('../assets/john_delaney_500.jpg'), 'states': {'Alabama': {'percentVote': null, 'delegates': null}, 'Alaska': {'percentVote': null, 'delegates': null}, 'Arizona': {'percentVote': null, 'delegates': null}, 'Arkansas': {'percentVote': null, 'delegates': null}, 'California': {'percentVote': null, 'delegates': null}, 'Colorado': {'percentVote': null, 'delegates': null}, 'Connecticut': {'percentVote': null, 'delegates': null}, 'Delaware': {'percentVote': null, 'delegates': null}, 'Florida': {'percentVote': null, 'delegates': null}, 'Georgia': {'percentVote': null, 'delegates': null}, 'Hawaii': {'percentVote': null, 'delegates': null}, 'Idaho': {'percentVote': null, 'delegates': null}, 'Illinois': {'percentVote': null, 'delegates': null}, 'Indiana': {'percentVote': null, 'delegates': null}, 'Iowa': {'percentVote': null, 'delegates': null}, 'Kansas': {'percentVote': null, 'delegates': null}, 'Kentucky': {'percentVote': null, 'delegates': null}, 'Louisiana': {'percentVote': null, 'delegates': null}, 'Maine': {'percentVote': null, 'delegates': null}, 'Maryland': {'percentVote': null, 'delegates': null}, 'Massachusetts': {'percentVote': null, 'delegates': null}, 'Michigan': {'percentVote': null, 'delegates': null}, 'Minnesota': {'percentVote': null, 'delegates': null}, 'Mississippi': {'percentVote': null, 'delegates': null}, 'Missouri': {'percentVote': null, 'delegates': null}, 'Montana': {'percentVote': null, 'delegates': null}, 'Nebraska': {'percentVote': null, 'delegates': null}, 'Nevada': {'percentVote': null, 'delegates': null}, 'New Hampshire': {'percentVote': null, 'delegates': null}, 'New Jersey': {'percentVote': null, 'delegates': null}, 'New Mexico': {'percentVote': null, 'delegates': null}, 'New York': {'percentVote': null, 'delegates': null}, 'North Carolina': {'percentVote': null, 'delegates': null}, 'North Dakota': {'percentVote': null, 'delegates': null}, 'Ohio': {'percentVote': null, 'delegates': null}, 'Oklahoma': {'percentVote': null, 'delegates': null}, 'Oregon': {'percentVote': null, 'delegates': null}, 'Pennsylvania': {'percentVote': null, 'delegates': null}, 'Rhode Island': {'percentVote': null, 'delegates': null}, 'South Carolina': {'percentVote': null, 'delegates': null}, 'South Dakota': {'percentVote': null, 'delegates': null}, 'Tennessee': {'percentVote': null, 'delegates': null}, 'Texas': {'percentVote': null, 'delegates': null}, 'Utah': {'percentVote': null, 'delegates': null}, 'Vermont': {'percentVote': null, 'delegates': null}, 'Virginia': {'percentVote': null, 'delegates': null}, 'Washington': {'percentVote': null, 'delegates': null}, 'West Virginia': {'percentVote': null, 'delegates': null}, 'Wisconsin': {'percentVote': null, 'delegates': null}, 'Wyoming': {'percentVote': null, 'delegates': null}, 'District of Columbia': {'percentVote': null, 'delegates': null}, 'Puerto Rico': {'percentVote': null, 'delegates': null}}},
+            'Tulsi Gabbard': {'name': 'Tulsi Gabbard', 'href': require('../assets/tulsi_gabbard_500.jpg'), 'states': {'Alabama': {'percentVote': null, 'delegates': null}, 'Alaska': {'percentVote': null, 'delegates': null}, 'Arizona': {'percentVote': null, 'delegates': null}, 'Arkansas': {'percentVote': null, 'delegates': null}, 'California': {'percentVote': null, 'delegates': null}, 'Colorado': {'percentVote': null, 'delegates': null}, 'Connecticut': {'percentVote': null, 'delegates': null}, 'Delaware': {'percentVote': null, 'delegates': null}, 'Florida': {'percentVote': null, 'delegates': null}, 'Georgia': {'percentVote': null, 'delegates': null}, 'Hawaii': {'percentVote': null, 'delegates': null}, 'Idaho': {'percentVote': null, 'delegates': null}, 'Illinois': {'percentVote': null, 'delegates': null}, 'Indiana': {'percentVote': null, 'delegates': null}, 'Iowa': {'percentVote': null, 'delegates': null}, 'Kansas': {'percentVote': null, 'delegates': null}, 'Kentucky': {'percentVote': null, 'delegates': null}, 'Louisiana': {'percentVote': null, 'delegates': null}, 'Maine': {'percentVote': null, 'delegates': null}, 'Maryland': {'percentVote': null, 'delegates': null}, 'Massachusetts': {'percentVote': null, 'delegates': null}, 'Michigan': {'percentVote': null, 'delegates': null}, 'Minnesota': {'percentVote': null, 'delegates': null}, 'Mississippi': {'percentVote': null, 'delegates': null}, 'Missouri': {'percentVote': null, 'delegates': null}, 'Montana': {'percentVote': null, 'delegates': null}, 'Nebraska': {'percentVote': null, 'delegates': null}, 'Nevada': {'percentVote': null, 'delegates': null}, 'New Hampshire': {'percentVote': null, 'delegates': null}, 'New Jersey': {'percentVote': null, 'delegates': null}, 'New Mexico': {'percentVote': null, 'delegates': null}, 'New York': {'percentVote': null, 'delegates': null}, 'North Carolina': {'percentVote': null, 'delegates': null}, 'North Dakota': {'percentVote': null, 'delegates': null}, 'Ohio': {'percentVote': null, 'delegates': null}, 'Oklahoma': {'percentVote': null, 'delegates': null}, 'Oregon': {'percentVote': null, 'delegates': null}, 'Pennsylvania': {'percentVote': null, 'delegates': null}, 'Rhode Island': {'percentVote': null, 'delegates': null}, 'South Carolina': {'percentVote': null, 'delegates': null}, 'South Dakota': {'percentVote': null, 'delegates': null}, 'Tennessee': {'percentVote': null, 'delegates': null}, 'Texas': {'percentVote': null, 'delegates': null}, 'Utah': {'percentVote': null, 'delegates': null}, 'Vermont': {'percentVote': null, 'delegates': null}, 'Virginia': {'percentVote': null, 'delegates': null}, 'Washington': {'percentVote': null, 'delegates': null}, 'West Virginia': {'percentVote': null, 'delegates': null}, 'Wisconsin': {'percentVote': null, 'delegates': null}, 'Wyoming': {'percentVote': null, 'delegates': null}, 'District of Columbia': {'percentVote': null, 'delegates': null}, 'Puerto Rico': {'percentVote': null, 'delegates': null}}},
+            'Kirsten Gillibrand': {'name': 'Kirsten Gillibrand', 'href': require('../assets/kirsten_gillibrand_500.jpg'), 'states': {'Alabama': {'percentVote': null, 'delegates': null}, 'Alaska': {'percentVote': null, 'delegates': null}, 'Arizona': {'percentVote': null, 'delegates': null}, 'Arkansas': {'percentVote': null, 'delegates': null}, 'California': {'percentVote': null, 'delegates': null}, 'Colorado': {'percentVote': null, 'delegates': null}, 'Connecticut': {'percentVote': null, 'delegates': null}, 'Delaware': {'percentVote': null, 'delegates': null}, 'Florida': {'percentVote': null, 'delegates': null}, 'Georgia': {'percentVote': null, 'delegates': null}, 'Hawaii': {'percentVote': null, 'delegates': null}, 'Idaho': {'percentVote': null, 'delegates': null}, 'Illinois': {'percentVote': null, 'delegates': null}, 'Indiana': {'percentVote': null, 'delegates': null}, 'Iowa': {'percentVote': null, 'delegates': null}, 'Kansas': {'percentVote': null, 'delegates': null}, 'Kentucky': {'percentVote': null, 'delegates': null}, 'Louisiana': {'percentVote': null, 'delegates': null}, 'Maine': {'percentVote': null, 'delegates': null}, 'Maryland': {'percentVote': null, 'delegates': null}, 'Massachusetts': {'percentVote': null, 'delegates': null}, 'Michigan': {'percentVote': null, 'delegates': null}, 'Minnesota': {'percentVote': null, 'delegates': null}, 'Mississippi': {'percentVote': null, 'delegates': null}, 'Missouri': {'percentVote': null, 'delegates': null}, 'Montana': {'percentVote': null, 'delegates': null}, 'Nebraska': {'percentVote': null, 'delegates': null}, 'Nevada': {'percentVote': null, 'delegates': null}, 'New Hampshire': {'percentVote': null, 'delegates': null}, 'New Jersey': {'percentVote': null, 'delegates': null}, 'New Mexico': {'percentVote': null, 'delegates': null}, 'New York': {'percentVote': null, 'delegates': null}, 'North Carolina': {'percentVote': null, 'delegates': null}, 'North Dakota': {'percentVote': null, 'delegates': null}, 'Ohio': {'percentVote': null, 'delegates': null}, 'Oklahoma': {'percentVote': null, 'delegates': null}, 'Oregon': {'percentVote': null, 'delegates': null}, 'Pennsylvania': {'percentVote': null, 'delegates': null}, 'Rhode Island': {'percentVote': null, 'delegates': null}, 'South Carolina': {'percentVote': null, 'delegates': null}, 'South Dakota': {'percentVote': null, 'delegates': null}, 'Tennessee': {'percentVote': null, 'delegates': null}, 'Texas': {'percentVote': null, 'delegates': null}, 'Utah': {'percentVote': null, 'delegates': null}, 'Vermont': {'percentVote': null, 'delegates': null}, 'Virginia': {'percentVote': null, 'delegates': null}, 'Washington': {'percentVote': null, 'delegates': null}, 'West Virginia': {'percentVote': null, 'delegates': null}, 'Wisconsin': {'percentVote': null, 'delegates': null}, 'Wyoming': {'percentVote': null, 'delegates': null}, 'District of Columbia': {'percentVote': null, 'delegates': null}, 'Puerto Rico': {'percentVote': null, 'delegates': null}}},
+            'Kamala Harris': {'name': 'Kamala Harris', 'href': require('../assets/kamala_harris_500.jpg'), 'states': {'Alabama': {'percentVote': null, 'delegates': null}, 'Alaska': {'percentVote': null, 'delegates': null}, 'Arizona': {'percentVote': null, 'delegates': null}, 'Arkansas': {'percentVote': null, 'delegates': null}, 'California': {'percentVote': null, 'delegates': null}, 'Colorado': {'percentVote': null, 'delegates': null}, 'Connecticut': {'percentVote': null, 'delegates': null}, 'Delaware': {'percentVote': null, 'delegates': null}, 'Florida': {'percentVote': null, 'delegates': null}, 'Georgia': {'percentVote': null, 'delegates': null}, 'Hawaii': {'percentVote': null, 'delegates': null}, 'Idaho': {'percentVote': null, 'delegates': null}, 'Illinois': {'percentVote': null, 'delegates': null}, 'Indiana': {'percentVote': null, 'delegates': null}, 'Iowa': {'percentVote': null, 'delegates': null}, 'Kansas': {'percentVote': null, 'delegates': null}, 'Kentucky': {'percentVote': null, 'delegates': null}, 'Louisiana': {'percentVote': null, 'delegates': null}, 'Maine': {'percentVote': null, 'delegates': null}, 'Maryland': {'percentVote': null, 'delegates': null}, 'Massachusetts': {'percentVote': null, 'delegates': null}, 'Michigan': {'percentVote': null, 'delegates': null}, 'Minnesota': {'percentVote': null, 'delegates': null}, 'Mississippi': {'percentVote': null, 'delegates': null}, 'Missouri': {'percentVote': null, 'delegates': null}, 'Montana': {'percentVote': null, 'delegates': null}, 'Nebraska': {'percentVote': null, 'delegates': null}, 'Nevada': {'percentVote': null, 'delegates': null}, 'New Hampshire': {'percentVote': null, 'delegates': null}, 'New Jersey': {'percentVote': null, 'delegates': null}, 'New Mexico': {'percentVote': null, 'delegates': null}, 'New York': {'percentVote': null, 'delegates': null}, 'North Carolina': {'percentVote': null, 'delegates': null}, 'North Dakota': {'percentVote': null, 'delegates': null}, 'Ohio': {'percentVote': null, 'delegates': null}, 'Oklahoma': {'percentVote': null, 'delegates': null}, 'Oregon': {'percentVote': null, 'delegates': null}, 'Pennsylvania': {'percentVote': null, 'delegates': null}, 'Rhode Island': {'percentVote': null, 'delegates': null}, 'South Carolina': {'percentVote': null, 'delegates': null}, 'South Dakota': {'percentVote': null, 'delegates': null}, 'Tennessee': {'percentVote': null, 'delegates': null}, 'Texas': {'percentVote': null, 'delegates': null}, 'Utah': {'percentVote': null, 'delegates': null}, 'Vermont': {'percentVote': null, 'delegates': null}, 'Virginia': {'percentVote': null, 'delegates': null}, 'Washington': {'percentVote': null, 'delegates': null}, 'West Virginia': {'percentVote': null, 'delegates': null}, 'Wisconsin': {'percentVote': null, 'delegates': null}, 'Wyoming': {'percentVote': null, 'delegates': null}, 'District of Columbia': {'percentVote': null, 'delegates': null}, 'Puerto Rico': {'percentVote': null, 'delegates': null}}},
+            'Amy Klobuchar': {'name': 'Amy Klobuchar', 'href': require('../assets/amy_klobuchar_500.jpg'), 'states': {'Alabama': {'percentVote': null, 'delegates': null}, 'Alaska': {'percentVote': null, 'delegates': null}, 'Arizona': {'percentVote': null, 'delegates': null}, 'Arkansas': {'percentVote': null, 'delegates': null}, 'California': {'percentVote': null, 'delegates': null}, 'Colorado': {'percentVote': null, 'delegates': null}, 'Connecticut': {'percentVote': null, 'delegates': null}, 'Delaware': {'percentVote': null, 'delegates': null}, 'Florida': {'percentVote': null, 'delegates': null}, 'Georgia': {'percentVote': null, 'delegates': null}, 'Hawaii': {'percentVote': null, 'delegates': null}, 'Idaho': {'percentVote': null, 'delegates': null}, 'Illinois': {'percentVote': null, 'delegates': null}, 'Indiana': {'percentVote': null, 'delegates': null}, 'Iowa': {'percentVote': null, 'delegates': null}, 'Kansas': {'percentVote': null, 'delegates': null}, 'Kentucky': {'percentVote': null, 'delegates': null}, 'Louisiana': {'percentVote': null, 'delegates': null}, 'Maine': {'percentVote': null, 'delegates': null}, 'Maryland': {'percentVote': null, 'delegates': null}, 'Massachusetts': {'percentVote': null, 'delegates': null}, 'Michigan': {'percentVote': null, 'delegates': null}, 'Minnesota': {'percentVote': null, 'delegates': null}, 'Mississippi': {'percentVote': null, 'delegates': null}, 'Missouri': {'percentVote': null, 'delegates': null}, 'Montana': {'percentVote': null, 'delegates': null}, 'Nebraska': {'percentVote': null, 'delegates': null}, 'Nevada': {'percentVote': null, 'delegates': null}, 'New Hampshire': {'percentVote': null, 'delegates': null}, 'New Jersey': {'percentVote': null, 'delegates': null}, 'New Mexico': {'percentVote': null, 'delegates': null}, 'New York': {'percentVote': null, 'delegates': null}, 'North Carolina': {'percentVote': null, 'delegates': null}, 'North Dakota': {'percentVote': null, 'delegates': null}, 'Ohio': {'percentVote': null, 'delegates': null}, 'Oklahoma': {'percentVote': null, 'delegates': null}, 'Oregon': {'percentVote': null, 'delegates': null}, 'Pennsylvania': {'percentVote': null, 'delegates': null}, 'Rhode Island': {'percentVote': null, 'delegates': null}, 'South Carolina': {'percentVote': null, 'delegates': null}, 'South Dakota': {'percentVote': null, 'delegates': null}, 'Tennessee': {'percentVote': null, 'delegates': null}, 'Texas': {'percentVote': null, 'delegates': null}, 'Utah': {'percentVote': null, 'delegates': null}, 'Vermont': {'percentVote': null, 'delegates': null}, 'Virginia': {'percentVote': null, 'delegates': null}, 'Washington': {'percentVote': null, 'delegates': null}, 'West Virginia': {'percentVote': null, 'delegates': null}, 'Wisconsin': {'percentVote': null, 'delegates': null}, 'Wyoming': {'percentVote': null, 'delegates': null}, 'District of Columbia': {'percentVote': null, 'delegates': null}, 'Puerto Rico': {'percentVote': null, 'delegates': null}}},
+            'Elizabeth Warren': {'name': 'Elizabeth Warren', 'href': require('../assets/elizabeth_warren_500.jpg'), 'states': {'Alabama': {'percentVote': null, 'delegates': null}, 'Alaska': {'percentVote': null, 'delegates': null}, 'Arizona': {'percentVote': null, 'delegates': null}, 'Arkansas': {'percentVote': null, 'delegates': null}, 'California': {'percentVote': null, 'delegates': null}, 'Colorado': {'percentVote': null, 'delegates': null}, 'Connecticut': {'percentVote': null, 'delegates': null}, 'Delaware': {'percentVote': null, 'delegates': null}, 'Florida': {'percentVote': null, 'delegates': null}, 'Georgia': {'percentVote': null, 'delegates': null}, 'Hawaii': {'percentVote': null, 'delegates': null}, 'Idaho': {'percentVote': null, 'delegates': null}, 'Illinois': {'percentVote': null, 'delegates': null}, 'Indiana': {'percentVote': null, 'delegates': null}, 'Iowa': {'percentVote': null, 'delegates': null}, 'Kansas': {'percentVote': null, 'delegates': null}, 'Kentucky': {'percentVote': null, 'delegates': null}, 'Louisiana': {'percentVote': null, 'delegates': null}, 'Maine': {'percentVote': null, 'delegates': null}, 'Maryland': {'percentVote': null, 'delegates': null}, 'Massachusetts': {'percentVote': null, 'delegates': null}, 'Michigan': {'percentVote': null, 'delegates': null}, 'Minnesota': {'percentVote': null, 'delegates': null}, 'Mississippi': {'percentVote': null, 'delegates': null}, 'Missouri': {'percentVote': null, 'delegates': null}, 'Montana': {'percentVote': null, 'delegates': null}, 'Nebraska': {'percentVote': null, 'delegates': null}, 'Nevada': {'percentVote': null, 'delegates': null}, 'New Hampshire': {'percentVote': null, 'delegates': null}, 'New Jersey': {'percentVote': null, 'delegates': null}, 'New Mexico': {'percentVote': null, 'delegates': null}, 'New York': {'percentVote': null, 'delegates': null}, 'North Carolina': {'percentVote': null, 'delegates': null}, 'North Dakota': {'percentVote': null, 'delegates': null}, 'Ohio': {'percentVote': null, 'delegates': null}, 'Oklahoma': {'percentVote': null, 'delegates': null}, 'Oregon': {'percentVote': null, 'delegates': null}, 'Pennsylvania': {'percentVote': null, 'delegates': null}, 'Rhode Island': {'percentVote': null, 'delegates': null}, 'South Carolina': {'percentVote': null, 'delegates': null}, 'South Dakota': {'percentVote': null, 'delegates': null}, 'Tennessee': {'percentVote': null, 'delegates': null}, 'Texas': {'percentVote': null, 'delegates': null}, 'Utah': {'percentVote': null, 'delegates': null}, 'Vermont': {'percentVote': null, 'delegates': null}, 'Virginia': {'percentVote': null, 'delegates': null}, 'Washington': {'percentVote': null, 'delegates': null}, 'West Virginia': {'percentVote': null, 'delegates': null}, 'Wisconsin': {'percentVote': null, 'delegates': null}, 'Wyoming': {'percentVote': null, 'delegates': null}, 'District of Columbia': {'percentVote': null, 'delegates': null}, 'Puerto Rico': {'percentVote': null, 'delegates': null}}}
+        },
         data: [],
         months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
         queryurl: "https://api.buttercms.com/v2/posts/?",
@@ -231,19 +346,38 @@ export default {
       // `this` points to the vm instance
       if (this.sliderstep == -1)  {return null}
       return this.primary_dates[this.sliderstep]
-    }
+    },
+    selectedStates: function () {
+      var selected_states = []
+      for (var state in this.primaries_all) {
+          if (this.compDate && this.compDate == this.primaries_all[state]) {
+              selected_states.push(state);
+          }
+      }
+      if (selected_states.length == 0) {selected_states = ['Help']}
+      return selected_states
+  },
+  selectedState: function(){
+        if (this.clickedState && this.selectedStates.indexOf(this.clickedState) >= 0) {
+            return this.clickedState;
+        }
+        else {return this.selectedStates[0]}
+  },
+  watched_candidates: function () {
+    return this.candidates;
+  }
   },
   props: [],
   methods: {
    highlight: function(state) {
-        if (!this.compDate || !this.primaries_all[state]) { return { 'democrat-blue-dark': false, 'democrat-blue-tint': false}}
+        if (!this.compDate || !this.primaries_all[state]) { return { 'democrat-blue-dark': false, 'democrat-blue-tint': false, 'is-focused': (state == this.inFocus)}}
         var darkBlue = false;
         var tintBlue = false;
         var state_date = new Date(this.primaries_all[state])
         var selected_date = new Date(this.compDate);
-        if (selected_date.getTime() == state_date.getTime()) {darkBlue = true; return { 'democrat-blue-dark': darkBlue, 'democrat-blue-tint': tintBlue}}
-        else if (state_date.getTime() < selected_date.getTime()) {tintBlue = true; return { 'democrat-blue-dark': darkBlue, 'democrat-blue-tint': tintBlue}}
-        else {return { 'democrat-blue-dark': darkBlue, 'democrat-blue-tint': tintBlue}}
+        if (selected_date.getTime() == state_date.getTime()) {darkBlue = true; return { 'democrat-blue-dark': darkBlue, 'democrat-blue-tint': tintBlue, 'is-focused': (state == this.inFocus)}}
+        else if (state_date.getTime() < selected_date.getTime()) {tintBlue = true; return { 'democrat-blue-dark': darkBlue, 'democrat-blue-tint': tintBlue, 'is-focused': (state == this.inFocus)}}
+        else {return { 'democrat-blue-dark': darkBlue, 'democrat-blue-tint': tintBlue, 'is-focused': (state == this.inFocus)}}
     },
    highlightButton: function(date) {
         var selected_date = new Date(this.compDate);
@@ -259,6 +393,9 @@ export default {
         else {this.sliderstep = step;}
    },
    select: function(state)  {
+       console.log(state);
+       this.inFocus = state;
+       this.clickedState = state;
        var date = this.primaries_all[state];
        if (!date) {this.sliderstep = -1; return false}
        else {
@@ -270,18 +407,67 @@ export default {
            }
        }
 
+   },
+   reset: function () {
+       console.log('reset');
+       for (var candidate in this.candidates) {
+          for (var state in this.primaries_all) {
+              // this.$set(this.candidates[candidate]['states'][state], 'percent', 0)
+              // this.$set(this.candidates[candidate]['states'][state], 'delegates', 0)
+              console.log(candidate);
+              console.log(state);
+              this.candidates[candidate]['states'][state].percentVote = 0;
+              this.candidates[candidate]['states'][state].delegates = 0;
+
+          }
+       }
+       console.log('finished reset');
+
+   },
+   getStroke: function(state){
+       if (state == self.inFocus) {return {'black': true}}
+       else {return ""}
+   },
+   clickState: function (state) {
+       this.clickedState = state;
+
+   },
+   calculateDelegates: function (candidate, state) {
+       console.log('calculation delegates');
+       console.log(candidate);
+       console.log(state);
+       var delegates = (this.candidates[candidate]['states'][state].percent/100)*25;
+       if (!delegates) {delegates = 0}
+       this.candidates[candidate]['states'][state].delegates = delegates;
    }
   },
-  mounted: function(){
-    // this.search();
+  created: function(){
+    this.reset();
   },
+  // watch : {
+  //     candidates: {
+  //         handler: function() {
+  //             for (var candidate in this.candidates) {
+  //                 for (var state in this.candidates[candidate]['states']) {
+  //                     this.candidates[candidate]['states'][state].delegates = this.candidates[candidate]['states'][state].percent * 100
+  //
+  //                     // delegates[candidate][state] = (this.candidates[candidate]['states'][state]/100)*25
+  //
+  //                 }
+  //             }
+  //         },
+  //         deep: true
+  //
+  //     }
+  // }
 }
 </script>
 
 <style>
   .democrat-blue-dark { fill: #0015BC !important }
   .democrat-blue-tint { fill: #99a1e4 !important }
-  
+
+  .is-focused {}
 
   #us-map {
   display: block;
