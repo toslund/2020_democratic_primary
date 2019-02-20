@@ -3,47 +3,56 @@
       <section class="section">
           <div class="container">
               <div class="columns is-centered">
-              <div class="column box has-text-centered ">
-                <h1 class="title is-5">February</h1>
-                  <div class="buttons are-medium is-centered">
-                      <a class="button" v-bind:class=" highlightButton('03 Feb 2020 00:00:00 GMT') " v-on:click="setDate('03 Feb 2020 00:00:00 GMT', 0)">3</a>
-                      <a class="button" v-bind:class=" highlightButton('11 Feb 2020 00:00:00 GMT') " v-on:click="setDate('11 Feb 2020 00:00:00 GMT', 1)">11</a>
-                      <a class="button" v-bind:class=" highlightButton('22 Feb 2020 00:00:00 GMT') " v-on:click="setDate('22 Feb 2020 00:00:00 GMT', 2)">22</a>
-                      <a class="button" v-bind:class=" highlightButton('29 Feb 2020 00:00:00 GMT') " v-on:click="setDate('29 Feb 2020 00:00:00 GMT', 3)">29</a>
-                  </div>
+              <div class="column box has-text-centered is-narrow">
+                <h1 class="title is-5">Select by Date or Map</h1>
+                  <div class="field">
+                      <div class="control">
+                        <div class="select is-primary">
+                          <select v-model="sliderstep">
+                            <option disabled value=""  selected>Select Date or Use Slider</option>
+                            <option v-for="(date, index) in comp_primary_dates" :label="formatDateString(date)" @input="sliderstep = index">{{ index }}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                      <!--<a class="button" v-bind:class=" highlightButton('03 Feb 2020 00:00:00 GMT') " v-on:click="setDate('03 Feb 2020 00:00:00 GMT', 0)">3</a>-->
+                      <!--<a class="button" v-bind:class=" highlightButton('11 Feb 2020 00:00:00 GMT') " v-on:click="setDate('11 Feb 2020 00:00:00 GMT', 1)">11</a>-->
+                      <!--<a class="button" v-bind:class=" highlightButton('22 Feb 2020 00:00:00 GMT') " v-on:click="setDate('22 Feb 2020 00:00:00 GMT', 2)">22</a>-->
+                      <!--<a class="button" v-bind:class=" highlightButton('29 Feb 2020 00:00:00 GMT') " v-on:click="setDate('29 Feb 2020 00:00:00 GMT', 3)">29</a>-->
               </div>
-              <div class="column box has-text-centered">
-                  <h1 class="title is-5">March</h1>
-                  <div class="buttons are-medium is-centered">
-                      <a class="button" v-bind:class=" highlightButton('03 Mar 2020 00:00:00 GMT') " v-on:click="setDate('03 Mar 2020 00:00:00 GMT', 4)">3</a>
-                      <a class="button" v-bind:class=" highlightButton('07 Mar 2020 00:00:00 GMT') " v-on:click="setDate('07 Mar 2020 00:00:00 GMT', 5)">7</a>
-                      <a class="button" v-bind:class=" highlightButton('10 Mar 2020 00:00:00 GMT') " v-on:click="setDate('10 Mar 2020 00:00:00 GMT', 6)">10</a>
-                      <a class="button" v-bind:class=" highlightButton('17 Mar 2020 00:00:00 GMT') " v-on:click="setDate('17 Mar 2020 00:00:00 GMT', 7)">17</a>
-                  </div>
-              </div>
-              <div class="column box has-text-centered">
-                  <h1 class="title is-5">April</h1>
-                  <div class="buttons are-medium is-centered">
-                      <a class="button" v-bind:class=" highlightButton('07 Apr 2020 00:00:00 GMT') " v-on:click="setDate('07 Apr 2020 00:00:00 GMT', 8)">7</a>
-                      <a class="button" v-bind:class=" highlightButton('28 Apr 2020 00:00:00 GMT') " v-on:click="setDate('28 Apr 2020 00:00:00 GMT', 9)">28</a>
-                  </div>
-              </div>
-              <div class="column box has-text-centered">
-                  <h1 class="title is-5">May</h1>
-                  <div class="buttons are-medium is-centered">
-                      <a class="button" v-bind:class=" highlightButton('05 May 2020 00:00:00 GMT') " v-on:click="setDate('05 May 2020 00:00:00 GMT', 10)">5</a>
-                      <a class="button" v-bind:class=" highlightButton('12 May 2020 00:00:00 GMT') " v-on:click="setDate('12 May 2020 00:00:00 GMT', 11)">12</a>
-                      <a class="button" v-bind:class=" highlightButton('19 May 2020 00:00:00 GMT') " v-on:click="setDate('19 May 2020 00:00:00 GMT', 12)">19</a>
-                  </div>
-              </div>
-              <div class="column box has-text-centered">
-                  <h1 class="title is-5">June</h1>
-                  <div class="buttons are-medium is-centered">
-                      <a class="button" v-bind:class=" highlightButton('02 Jun 2020 00:00:00 GMT') " v-on:click="setDate('02 Jun 2020 00:00:00 GMT', 13)">2</a>
-                      <a class="button" v-bind:class=" highlightButton('07 Jun 2020 00:00:00 GMT') " v-on:click="setDate('07 Jun 2020 00:00:00 GMT', 14)">7</a>
-                      <a class="button" v-bind:class=" highlightButton('16 Jun 2020 00:00:00 GMT') " v-on:click="setDate('16 Jun 2020 00:00:00 GMT', 15)">16</a>
-                  </div>
-              </div>
+
+              <!--<div class="column box has-text-centered">-->
+                  <!--<h1 class="title is-5">March</h1>-->
+                  <!--<div class="buttons are-medium is-centered">-->
+                      <!--<a class="button" v-bind:class=" highlightButton('03 Mar 2020 00:00:00 GMT') " v-on:click="setDate('03 Mar 2020 00:00:00 GMT', 4)">3</a>-->
+                      <!--<a class="button" v-bind:class=" highlightButton('07 Mar 2020 00:00:00 GMT') " v-on:click="setDate('07 Mar 2020 00:00:00 GMT', 5)">7</a>-->
+                      <!--<a class="button" v-bind:class=" highlightButton('10 Mar 2020 00:00:00 GMT') " v-on:click="setDate('10 Mar 2020 00:00:00 GMT', 6)">10</a>-->
+                      <!--<a class="button" v-bind:class=" highlightButton('17 Mar 2020 00:00:00 GMT') " v-on:click="setDate('17 Mar 2020 00:00:00 GMT', 7)">17</a>-->
+                  <!--</div>-->
+              <!--</div>-->
+              <!--<div class="column box has-text-centered">-->
+                  <!--<h1 class="title is-5">April</h1>-->
+                  <!--<div class="buttons are-medium is-centered">-->
+                      <!--<a class="button" v-bind:class=" highlightButton('07 Apr 2020 00:00:00 GMT') " v-on:click="setDate('07 Apr 2020 00:00:00 GMT', 8)">7</a>-->
+                      <!--<a class="button" v-bind:class=" highlightButton('28 Apr 2020 00:00:00 GMT') " v-on:click="setDate('28 Apr 2020 00:00:00 GMT', 9)">28</a>-->
+                  <!--</div>-->
+              <!--</div>-->
+              <!--<div class="column box has-text-centered">-->
+                  <!--<h1 class="title is-5">May</h1>-->
+                  <!--<div class="buttons are-medium is-centered">-->
+                      <!--<a class="button" v-bind:class=" highlightButton('05 May 2020 00:00:00 GMT') " v-on:click="setDate('05 May 2020 00:00:00 GMT', 10)">5</a>-->
+                      <!--<a class="button" v-bind:class=" highlightButton('12 May 2020 00:00:00 GMT') " v-on:click="setDate('12 May 2020 00:00:00 GMT', 11)">12</a>-->
+                      <!--<a class="button" v-bind:class=" highlightButton('19 May 2020 00:00:00 GMT') " v-on:click="setDate('19 May 2020 00:00:00 GMT', 12)">19</a>-->
+                  <!--</div>-->
+              <!--</div>-->
+              <!--<div class="column box has-text-centered">-->
+                  <!--<h1 class="title is-5">June</h1>-->
+                  <!--<div class="buttons are-medium is-centered">-->
+                      <!--<a class="button" v-bind:class=" highlightButton('02 Jun 2020 00:00:00 GMT') " v-on:click="setDate('02 Jun 2020 00:00:00 GMT', 13)">2</a>-->
+                      <!--<a class="button" v-bind:class=" highlightButton('07 Jun 2020 00:00:00 GMT') " v-on:click="setDate('07 Jun 2020 00:00:00 GMT', 14)">7</a>-->
+                      <!--<a class="button" v-bind:class=" highlightButton('16 Jun 2020 00:00:00 GMT') " v-on:click="setDate('16 Jun 2020 00:00:00 GMT', 15)">16</a>-->
+                  <!--</div>-->
+              <!--</div>-->
 
             </div>
             <div class="columns is-centered">
@@ -142,7 +151,7 @@
                           <tbody>
                             <tr v-for="candidate in candidates">
                               <th>{{ candidate.name }}</th>
-                              <td><input class="input is-primary" v-model="candidate['states'][selectedState].percent" @input="calculateDelegates(candidate.name, selectedState)"></td>
+                              <td><input class="input is-primary" v-model="candidate['states'][selectedState].percentVote" @input="calculateDelegates(selectedState)"></td>
                               <td>{{ candidate['states'][selectedState].delegates }}</td>
                             </tr>
                           </tbody>
@@ -256,62 +265,62 @@ export default {
             'Puerto Rico': '07 Jun 2020 00:00:00 GMT'
         },
         primaries_all_: {
-            'Alabama': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': 52},
-            'Alaska': {'date': '28 Mar 2020 00:00:00 GMT', 'delegates': 14},
-            'American Samoa': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': 6},
-            'Arizona': {'date': '17 Mar 2020 00:00:00 GMT', 'delegates': 67},
-            'Arkansas': {'date': '19 May 2020 00:00:00 GMT', 'delegates': 31},
-            'California': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': 416},
-            'Colorado': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': 67},
-            'Connecticut': {'date': '28 Apr 2020 00:00:00 GMT', 'delegates': 49},
-            'Delaware': {'date': '28 Apr 2020 00:00:00 GMT', 'delegates': 17},
-            'Florida': {'date': '17 Mar 2020 00:00:00 GMT', 'delegates': 219},
-            'Georgia': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': 105},
-            'Guam': {'date': '14 Mar 2020 00:00:00 GMT', 'delegates': 6},
-            'Hawaii': {'date': '28 Mar 2020 00:00:00 GMT', 'delegates': 22},
-            'Idaho': {'date': '10 Mar 2020 00:00:00 GMT', 'delegates': 20},
-            'Illinois': {'date': '17 Mar 2020 00:00:00 GMT', 'delegates': 155},
-            'Indiana': {'date': '05 May 2020 00:00:00 GMT', 'delegates': 70},
-            'Iowa': {'date': '03 Feb 2020 00:00:00 GMT', 'delegates': 41},
-            'Kansas': {'date': '07 Mar 2020 00:00:00 GMT', 'delegates': 33},
-            'Kentucky': {'date': '19 May 2020 00:00:00 GMT', 'delegates': 46},
-            'Louisiana': {'date': '07 Mar 2020 00:00:00 GMT', 'delegates': 50},
-            'Maine': {'date': '08 Mar 2020 00:00:00 GMT', 'delegates': 24},
-            'Maryland': {'date': '28 Apr 2020 00:00:00 GMT', 'delegates': 79},
-            'Massachusetts': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': 91},
-            'Michigan': {'date': '10 Mar 2020 00:00:00 GMT', 'delegates': 125},
-            'Minnesota': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': 75},
-            'Mississippi': {'date': '10 Mar 2020 00:00:00 GMT', 'delegates': 36},
-            'Missouri': {'date': '10 Mar 2020 00:00:00 GMT', 'delegates': 68},
-            'Montana': {'date': '02 Jun 2020 00:00:00 GMT', 'delegates': 16},
-            'Nebraska': {'date': '12 May 2020 00:00:00 GMT', 'delegates': 25},
-            'Nevada': {'date': '22 Feb 2020 00:00:00 GMT', 'delegates': 36},
-            'New Hampshire': {'date': '11 Feb 2020 00:00:00 GMT', 'delegates': 24},
-            'New Jersey': {'date': '02 Jun 2020 00:00:00 GMT', 'delegates': 107},
-            'New Mexico': {'date': '02 Jun 2020 00:00:00 GMT', 'delegates': 29},
-            'New York': {'date': '21 Apr 2020 00:00:00 GMT', 'delegates': 224},
-            'North Carolina': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': 110},
-            'North Dakota': {'date': '02 Jun 2020 00:00:00 GMT', 'delegates': 14},
-            'Ohio': {'date': '10 Mar 2020 00:00:00 GMT', 'delegates': 136},
-            'Oklahoma': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': 37},
-            'Oregon': {'date': '19 May 2020 00:00:00 GMT', 'delegates': 52},
-            'Pennsylvania': {'date': '28 Apr 2020 00:00:00 GMT', 'delegates': 153},
-            'Rhode Island': {'date': '28 Apr 2020 00:00:00 GMT', 'delegates': 21},
-            'South Carolina': {'date': '29 Feb 2020 00:00:00 GMT', 'delegates': 54},
-            'South Dakota': {'date': '02 Jun 2020 00:00:00 GMT', 'delegates': 14},
-            'Tennessee': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': 64},
-            'Texas': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': 228},
-            'Utah': {'date': '24 Mar 2020 00:00:00 GMT', 'delegates': 29},
-            'Vermont': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': 16},
-            'Virgin Islands': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': 6},
-            'Virginia': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': 99},
-            'Washington': {'date': '26 Mar 2020 00:00:00 GMT', 'delegates': 89},
-            'West Virginia': {'date': '12 May 2020 00:00:00 GMT', 'delegates': 24},
-            'Wisconsin': {'date': '07 Apr 2020 00:00:00 GMT', 'delegates': 77},
-            'Wyoming': {'date': '11 Apr 2020 00:00:00 GMT', 'delegates': 13},
-            'District of Columbia': {'date': '16 Jun 2020 00:00:00 GMT', 'delegates': 17},
-            'Puerto Rico': {'date': '07 Jun 2020 00:00:00 GMT', 'delegates': 51},
-            'Democrats Abroad': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': 13}
+            'Alabama': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': 52, 'name': 'Alabama'},
+            'Alaska': {'date': '28 Mar 2020 00:00:00 GMT', 'delegates': 14, 'name': 'Alaska'},
+            'American Samoa': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': 6, 'name': 'American Samoa'},
+            'Arizona': {'date': '17 Mar 2020 00:00:00 GMT', 'delegates': 67, 'name': 'Arizona'},
+            'Arkansas': {'date': '19 May 2020 00:00:00 GMT', 'delegates': 31, 'name': 'Arkansas'},
+            'California': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': 416, 'name': 'California'},
+            'Colorado': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': 67, 'name': 'Colorado'},
+            'Connecticut': {'date': '28 Apr 2020 00:00:00 GMT', 'delegates': 49, 'name': 'Connecticut'},
+            'Delaware': {'date': '28 Apr 2020 00:00:00 GMT', 'delegates': 17, 'name': 'Delaware'},
+            'Florida': {'date': '17 Mar 2020 00:00:00 GMT', 'delegates': 219, 'name': 'Florida'},
+            'Georgia': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': 105, 'name': 'Georgia'},
+            'Guam': {'date': '14 Mar 2020 00:00:00 GMT', 'delegates': 6, 'name': 'Guam'},
+            'Hawaii': {'date': '28 Mar 2020 00:00:00 GMT', 'delegates': 22, 'name': 'Hawaii'},
+            'Idaho': {'date': '10 Mar 2020 00:00:00 GMT', 'delegates': 20, 'name': 'Idaho'},
+            'Illinois': {'date': '17 Mar 2020 00:00:00 GMT', 'delegates': 155, 'name': 'Illinois'},
+            'Indiana': {'date': '05 May 2020 00:00:00 GMT', 'delegates': 70, 'name': 'Indiana'},
+            'Iowa': {'date': '03 Feb 2020 00:00:00 GMT', 'delegates': 41, 'name': 'Iowa'},
+            'Kansas': {'date': '07 Mar 2020 00:00:00 GMT', 'delegates': 33, 'name': 'Kansas'},
+            'Kentucky': {'date': '19 May 2020 00:00:00 GMT', 'delegates': 46, 'name': 'Kentucky'},
+            'Louisiana': {'date': '07 Mar 2020 00:00:00 GMT', 'delegates': 50, 'name': 'Louisiana'},
+            'Maine': {'date': '08 Mar 2020 00:00:00 GMT', 'delegates': 24, 'name': 'Maine'},
+            'Maryland': {'date': '28 Apr 2020 00:00:00 GMT', 'delegates': 79, 'name': 'Maryland'},
+            'Massachusetts': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': 91, 'name': 'Massachusetts'},
+            'Michigan': {'date': '10 Mar 2020 00:00:00 GMT', 'delegates': 125, 'name': 'Michigan'},
+            'Minnesota': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': 75, 'name': 'Minnesota'},
+            'Mississippi': {'date': '10 Mar 2020 00:00:00 GMT', 'delegates': 36, 'name': 'Mississippi'},
+            'Missouri': {'date': '10 Mar 2020 00:00:00 GMT', 'delegates': 68, 'name': 'Missouri'},
+            'Montana': {'date': '02 Jun 2020 00:00:00 GMT', 'delegates': 16, 'name': 'Montana'},
+            'Nebraska': {'date': '12 May 2020 00:00:00 GMT', 'delegates': 25, 'name': 'Nebraska'},
+            'Nevada': {'date': '22 Feb 2020 00:00:00 GMT', 'delegates': 36, 'name': 'Nevada'},
+            'New Hampshire': {'date': '11 Feb 2020 00:00:00 GMT', 'delegates': 24, 'name': 'New Hampshire'},
+            'New Jersey': {'date': '02 Jun 2020 00:00:00 GMT', 'delegates': 107, 'name': 'New Jersey'},
+            'New Mexico': {'date': '02 Jun 2020 00:00:00 GMT', 'delegates': 29, 'name': 'New Mexico'},
+            'New York': {'date': '21 Apr 2020 00:00:00 GMT', 'delegates': 224, 'name': 'New York'},
+            'North Carolina': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': 110, 'name': 'North Carolina'},
+            'North Dakota': {'date': '02 Jun 2020 00:00:00 GMT', 'delegates': 14, 'name': 'North Dakota'},
+            'Ohio': {'date': '10 Mar 2020 00:00:00 GMT', 'delegates': 136, 'name': 'Ohio'},
+            'Oklahoma': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': 37, 'name': 'Oklahoma'},
+            'Oregon': {'date': '19 May 2020 00:00:00 GMT', 'delegates': 52, 'name': 'Oregon'},
+            'Pennsylvania': {'date': '28 Apr 2020 00:00:00 GMT', 'delegates': 153, 'name': 'Pennsylvania'},
+            'Rhode Island': {'date': '28 Apr 2020 00:00:00 GMT', 'delegates': 21, 'name': 'Rhode Island'},
+            'South Carolina': {'date': '29 Feb 2020 00:00:00 GMT', 'delegates': 54, 'name': 'South Carolina'},
+            'South Dakota': {'date': '02 Jun 2020 00:00:00 GMT', 'delegates': 14, 'name': 'South Dakota'},
+            'Tennessee': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': 64, 'name': 'Tennessee'},
+            'Texas': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': 228, 'name': 'Texas'},
+            'Utah': {'date': '24 Mar 2020 00:00:00 GMT', 'delegates': 29, 'name': 'Utah'},
+            'Vermont': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': 16, 'name': 'Vermont'},
+            'Virgin Islands': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': 6, 'name': 'Virgin Islands'},
+            'Virginia': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': 99, 'name': 'Virginia'},
+            'Washington': {'date': '26 Mar 2020 00:00:00 GMT', 'delegates': 89, 'name': 'Washington'},
+            'West Virginia': {'date': '12 May 2020 00:00:00 GMT', 'delegates': 24, 'name': 'West Virginia'},
+            'Wisconsin': {'date': '07 Apr 2020 00:00:00 GMT', 'delegates': 77, 'name': 'Wisconsin'},
+            'Wyoming': {'date': '11 Apr 2020 00:00:00 GMT', 'delegates': 13, 'name': 'Wyoming'},
+            'District of Columbia': {'date': '16 Jun 2020 00:00:00 GMT', 'delegates': 17, 'name': 'District of Columbia'},
+            'Puerto Rico': {'date': '07 Jun 2020 00:00:00 GMT', 'delegates': 51, 'name': 'Puerto Rico'},
+            'Democrats Abroad': {'date': '03 Mar 2020 00:00:00 GMT', 'delegates': 13, 'name': 'Democrats Abroad'}
         },
         primaries: {'03 Feb 2020 00:00:00 GMT': ['Iowa'],
             '11 Feb 2020 00:00:00 GMT': ['New Hampshire'],
@@ -338,7 +347,9 @@ export default {
             'Kirsten Gillibrand': {'name': 'Kirsten Gillibrand', 'href': require('../assets/kirsten_gillibrand_500.jpg'), 'states': {'Alabama': {'percentVote': null, 'delegates': null}, 'Alaska': {'percentVote': null, 'delegates': null}, 'American Samoa': {'percentVote': null, 'delegates': null}, 'Arizona': {'percentVote': null, 'delegates': null}, 'Arkansas': {'percentVote': null, 'delegates': null}, 'California': {'percentVote': null, 'delegates': null}, 'Colorado': {'percentVote': null, 'delegates': null}, 'Connecticut': {'percentVote': null, 'delegates': null}, 'Delaware': {'percentVote': null, 'delegates': null}, 'Florida': {'percentVote': null, 'delegates': null}, 'Georgia': {'percentVote': null, 'delegates': null}, 'Guam': {'percentVote': null, 'delegates': null}, 'Hawaii': {'percentVote': null, 'delegates': null}, 'Idaho': {'percentVote': null, 'delegates': null}, 'Illinois': {'percentVote': null, 'delegates': null}, 'Indiana': {'percentVote': null, 'delegates': null}, 'Iowa': {'percentVote': null, 'delegates': null}, 'Kansas': {'percentVote': null, 'delegates': null}, 'Kentucky': {'percentVote': null, 'delegates': null}, 'Louisiana': {'percentVote': null, 'delegates': null}, 'Maine': {'percentVote': null, 'delegates': null}, 'Maryland': {'percentVote': null, 'delegates': null}, 'Massachusetts': {'percentVote': null, 'delegates': null}, 'Michigan': {'percentVote': null, 'delegates': null}, 'Minnesota': {'percentVote': null, 'delegates': null}, 'Mississippi': {'percentVote': null, 'delegates': null}, 'Missouri': {'percentVote': null, 'delegates': null}, 'Montana': {'percentVote': null, 'delegates': null}, 'Nebraska': {'percentVote': null, 'delegates': null}, 'Nevada': {'percentVote': null, 'delegates': null}, 'New Hampshire': {'percentVote': null, 'delegates': null}, 'New Jersey': {'percentVote': null, 'delegates': null}, 'New Mexico': {'percentVote': null, 'delegates': null}, 'New York': {'percentVote': null, 'delegates': null}, 'North Carolina': {'percentVote': null, 'delegates': null}, 'North Dakota': {'percentVote': null, 'delegates': null}, 'Ohio': {'percentVote': null, 'delegates': null}, 'Oklahoma': {'percentVote': null, 'delegates': null}, 'Oregon': {'percentVote': null, 'delegates': null}, 'Pennsylvania': {'percentVote': null, 'delegates': null}, 'Rhode Island': {'percentVote': null, 'delegates': null}, 'South Carolina': {'percentVote': null, 'delegates': null}, 'South Dakota': {'percentVote': null, 'delegates': null}, 'Tennessee': {'percentVote': null, 'delegates': null}, 'Texas': {'percentVote': null, 'delegates': null}, 'Utah': {'percentVote': null, 'delegates': null}, 'Vermont': {'percentVote': null, 'delegates': null}, 'Virgin Islands': {'percentVote': null, 'delegates': null},  'Virginia': {'percentVote': null, 'delegates': null}, 'Washington': {'percentVote': null, 'delegates': null}, 'West Virginia': {'percentVote': null, 'delegates': null}, 'Wisconsin': {'percentVote': null, 'delegates': null}, 'Wyoming': {'percentVote': null, 'delegates': null}, 'District of Columbia': {'percentVote': null, 'delegates': null}, 'Puerto Rico': {'percentVote': null, 'delegates': null}, 'Democrats Abroad': {'percentVote': null, 'delegates': null}}},
             'Kamala Harris': {'name': 'Kamala Harris', 'href': require('../assets/kamala_harris_500.jpg'), 'states': {'Alabama': {'percentVote': null, 'delegates': null}, 'Alaska': {'percentVote': null, 'delegates': null}, 'American Samoa': {'percentVote': null, 'delegates': null}, 'Arizona': {'percentVote': null, 'delegates': null}, 'Arkansas': {'percentVote': null, 'delegates': null}, 'California': {'percentVote': null, 'delegates': null}, 'Colorado': {'percentVote': null, 'delegates': null}, 'Connecticut': {'percentVote': null, 'delegates': null}, 'Delaware': {'percentVote': null, 'delegates': null}, 'Florida': {'percentVote': null, 'delegates': null}, 'Georgia': {'percentVote': null, 'delegates': null}, 'Guam': {'percentVote': null, 'delegates': null}, 'Hawaii': {'percentVote': null, 'delegates': null}, 'Idaho': {'percentVote': null, 'delegates': null}, 'Illinois': {'percentVote': null, 'delegates': null}, 'Indiana': {'percentVote': null, 'delegates': null}, 'Iowa': {'percentVote': null, 'delegates': null}, 'Kansas': {'percentVote': null, 'delegates': null}, 'Kentucky': {'percentVote': null, 'delegates': null}, 'Louisiana': {'percentVote': null, 'delegates': null}, 'Maine': {'percentVote': null, 'delegates': null}, 'Maryland': {'percentVote': null, 'delegates': null}, 'Massachusetts': {'percentVote': null, 'delegates': null}, 'Michigan': {'percentVote': null, 'delegates': null}, 'Minnesota': {'percentVote': null, 'delegates': null}, 'Mississippi': {'percentVote': null, 'delegates': null}, 'Missouri': {'percentVote': null, 'delegates': null}, 'Montana': {'percentVote': null, 'delegates': null}, 'Nebraska': {'percentVote': null, 'delegates': null}, 'Nevada': {'percentVote': null, 'delegates': null}, 'New Hampshire': {'percentVote': null, 'delegates': null}, 'New Jersey': {'percentVote': null, 'delegates': null}, 'New Mexico': {'percentVote': null, 'delegates': null}, 'New York': {'percentVote': null, 'delegates': null}, 'North Carolina': {'percentVote': null, 'delegates': null}, 'North Dakota': {'percentVote': null, 'delegates': null}, 'Ohio': {'percentVote': null, 'delegates': null}, 'Oklahoma': {'percentVote': null, 'delegates': null}, 'Oregon': {'percentVote': null, 'delegates': null}, 'Pennsylvania': {'percentVote': null, 'delegates': null}, 'Rhode Island': {'percentVote': null, 'delegates': null}, 'South Carolina': {'percentVote': null, 'delegates': null}, 'South Dakota': {'percentVote': null, 'delegates': null}, 'Tennessee': {'percentVote': null, 'delegates': null}, 'Texas': {'percentVote': null, 'delegates': null}, 'Utah': {'percentVote': null, 'delegates': null}, 'Vermont': {'percentVote': null, 'delegates': null}, 'Virgin Islands': {'percentVote': null, 'delegates': null},  'Virginia': {'percentVote': null, 'delegates': null}, 'Washington': {'percentVote': null, 'delegates': null}, 'West Virginia': {'percentVote': null, 'delegates': null}, 'Wisconsin': {'percentVote': null, 'delegates': null}, 'Wyoming': {'percentVote': null, 'delegates': null}, 'District of Columbia': {'percentVote': null, 'delegates': null}, 'Puerto Rico': {'percentVote': null, 'delegates': null}, 'Democrats Abroad': {'percentVote': null, 'delegates': null}}},
             'Amy Klobuchar': {'name': 'Amy Klobuchar', 'href': require('../assets/amy_klobuchar_500.jpg'), 'states': {'Alabama': {'percentVote': null, 'delegates': null}, 'Alaska': {'percentVote': null, 'delegates': null}, 'American Samoa': {'percentVote': null, 'delegates': null}, 'Arizona': {'percentVote': null, 'delegates': null}, 'Arkansas': {'percentVote': null, 'delegates': null}, 'California': {'percentVote': null, 'delegates': null}, 'Colorado': {'percentVote': null, 'delegates': null}, 'Connecticut': {'percentVote': null, 'delegates': null}, 'Delaware': {'percentVote': null, 'delegates': null}, 'Florida': {'percentVote': null, 'delegates': null}, 'Georgia': {'percentVote': null, 'delegates': null}, 'Guam': {'percentVote': null, 'delegates': null}, 'Hawaii': {'percentVote': null, 'delegates': null}, 'Idaho': {'percentVote': null, 'delegates': null}, 'Illinois': {'percentVote': null, 'delegates': null}, 'Indiana': {'percentVote': null, 'delegates': null}, 'Iowa': {'percentVote': null, 'delegates': null}, 'Kansas': {'percentVote': null, 'delegates': null}, 'Kentucky': {'percentVote': null, 'delegates': null}, 'Louisiana': {'percentVote': null, 'delegates': null}, 'Maine': {'percentVote': null, 'delegates': null}, 'Maryland': {'percentVote': null, 'delegates': null}, 'Massachusetts': {'percentVote': null, 'delegates': null}, 'Michigan': {'percentVote': null, 'delegates': null}, 'Minnesota': {'percentVote': null, 'delegates': null}, 'Mississippi': {'percentVote': null, 'delegates': null}, 'Missouri': {'percentVote': null, 'delegates': null}, 'Montana': {'percentVote': null, 'delegates': null}, 'Nebraska': {'percentVote': null, 'delegates': null}, 'Nevada': {'percentVote': null, 'delegates': null}, 'New Hampshire': {'percentVote': null, 'delegates': null}, 'New Jersey': {'percentVote': null, 'delegates': null}, 'New Mexico': {'percentVote': null, 'delegates': null}, 'New York': {'percentVote': null, 'delegates': null}, 'North Carolina': {'percentVote': null, 'delegates': null}, 'North Dakota': {'percentVote': null, 'delegates': null}, 'Ohio': {'percentVote': null, 'delegates': null}, 'Oklahoma': {'percentVote': null, 'delegates': null}, 'Oregon': {'percentVote': null, 'delegates': null}, 'Pennsylvania': {'percentVote': null, 'delegates': null}, 'Rhode Island': {'percentVote': null, 'delegates': null}, 'South Carolina': {'percentVote': null, 'delegates': null}, 'South Dakota': {'percentVote': null, 'delegates': null}, 'Tennessee': {'percentVote': null, 'delegates': null}, 'Texas': {'percentVote': null, 'delegates': null}, 'Utah': {'percentVote': null, 'delegates': null}, 'Vermont': {'percentVote': null, 'delegates': null}, 'Virgin Islands': {'percentVote': null, 'delegates': null},  'Virginia': {'percentVote': null, 'delegates': null}, 'Washington': {'percentVote': null, 'delegates': null}, 'West Virginia': {'percentVote': null, 'delegates': null}, 'Wisconsin': {'percentVote': null, 'delegates': null}, 'Wyoming': {'percentVote': null, 'delegates': null}, 'District of Columbia': {'percentVote': null, 'delegates': null}, 'Puerto Rico': {'percentVote': null, 'delegates': null}, 'Democrats Abroad': {'percentVote': null, 'delegates': null}}},
+            'Bernie Sanders': {'name': 'Bernie Sanders', 'href': require('../assets/bernie_sanders_500.jpg'), 'states': {'Alabama': {'percentVote': null, 'delegates': null}, 'Alaska': {'percentVote': null, 'delegates': null}, 'American Samoa': {'percentVote': null, 'delegates': null}, 'Arizona': {'percentVote': null, 'delegates': null}, 'Arkansas': {'percentVote': null, 'delegates': null}, 'California': {'percentVote': null, 'delegates': null}, 'Colorado': {'percentVote': null, 'delegates': null}, 'Connecticut': {'percentVote': null, 'delegates': null}, 'Delaware': {'percentVote': null, 'delegates': null}, 'Florida': {'percentVote': null, 'delegates': null}, 'Georgia': {'percentVote': null, 'delegates': null}, 'Guam': {'percentVote': null, 'delegates': null}, 'Hawaii': {'percentVote': null, 'delegates': null}, 'Idaho': {'percentVote': null, 'delegates': null}, 'Illinois': {'percentVote': null, 'delegates': null}, 'Indiana': {'percentVote': null, 'delegates': null}, 'Iowa': {'percentVote': null, 'delegates': null}, 'Kansas': {'percentVote': null, 'delegates': null}, 'Kentucky': {'percentVote': null, 'delegates': null}, 'Louisiana': {'percentVote': null, 'delegates': null}, 'Maine': {'percentVote': null, 'delegates': null}, 'Maryland': {'percentVote': null, 'delegates': null}, 'Massachusetts': {'percentVote': null, 'delegates': null}, 'Michigan': {'percentVote': null, 'delegates': null}, 'Minnesota': {'percentVote': null, 'delegates': null}, 'Mississippi': {'percentVote': null, 'delegates': null}, 'Missouri': {'percentVote': null, 'delegates': null}, 'Montana': {'percentVote': null, 'delegates': null}, 'Nebraska': {'percentVote': null, 'delegates': null}, 'Nevada': {'percentVote': null, 'delegates': null}, 'New Hampshire': {'percentVote': null, 'delegates': null}, 'New Jersey': {'percentVote': null, 'delegates': null}, 'New Mexico': {'percentVote': null, 'delegates': null}, 'New York': {'percentVote': null, 'delegates': null}, 'North Carolina': {'percentVote': null, 'delegates': null}, 'North Dakota': {'percentVote': null, 'delegates': null}, 'Ohio': {'percentVote': null, 'delegates': null}, 'Oklahoma': {'percentVote': null, 'delegates': null}, 'Oregon': {'percentVote': null, 'delegates': null}, 'Pennsylvania': {'percentVote': null, 'delegates': null}, 'Rhode Island': {'percentVote': null, 'delegates': null}, 'South Carolina': {'percentVote': null, 'delegates': null}, 'South Dakota': {'percentVote': null, 'delegates': null}, 'Tennessee': {'percentVote': null, 'delegates': null}, 'Texas': {'percentVote': null, 'delegates': null}, 'Utah': {'percentVote': null, 'delegates': null}, 'Vermont': {'percentVote': null, 'delegates': null}, 'Virgin Islands': {'percentVote': null, 'delegates': null},  'Virginia': {'percentVote': null, 'delegates': null}, 'Washington': {'percentVote': null, 'delegates': null}, 'West Virginia': {'percentVote': null, 'delegates': null}, 'Wisconsin': {'percentVote': null, 'delegates': null}, 'Wyoming': {'percentVote': null, 'delegates': null}, 'District of Columbia': {'percentVote': null, 'delegates': null}, 'Puerto Rico': {'percentVote': null, 'delegates': null}, 'Democrats Abroad': {'percentVote': null, 'delegates': null}}},
             'Elizabeth Warren': {'name': 'Elizabeth Warren', 'href': require('../assets/elizabeth_warren_500.jpg'), 'states': {'Alabama': {'percentVote': null, 'delegates': null}, 'Alaska': {'percentVote': null, 'delegates': null}, 'American Samoa': {'percentVote': null, 'delegates': null}, 'Arizona': {'percentVote': null, 'delegates': null}, 'Arkansas': {'percentVote': null, 'delegates': null}, 'California': {'percentVote': null, 'delegates': null}, 'Colorado': {'percentVote': null, 'delegates': null}, 'Connecticut': {'percentVote': null, 'delegates': null}, 'Delaware': {'percentVote': null, 'delegates': null}, 'Florida': {'percentVote': null, 'delegates': null}, 'Georgia': {'percentVote': null, 'delegates': null}, 'Guam': {'percentVote': null, 'delegates': null}, 'Hawaii': {'percentVote': null, 'delegates': null}, 'Idaho': {'percentVote': null, 'delegates': null}, 'Illinois': {'percentVote': null, 'delegates': null}, 'Indiana': {'percentVote': null, 'delegates': null}, 'Iowa': {'percentVote': null, 'delegates': null}, 'Kansas': {'percentVote': null, 'delegates': null}, 'Kentucky': {'percentVote': null, 'delegates': null}, 'Louisiana': {'percentVote': null, 'delegates': null}, 'Maine': {'percentVote': null, 'delegates': null}, 'Maryland': {'percentVote': null, 'delegates': null}, 'Massachusetts': {'percentVote': null, 'delegates': null}, 'Michigan': {'percentVote': null, 'delegates': null}, 'Minnesota': {'percentVote': null, 'delegates': null}, 'Mississippi': {'percentVote': null, 'delegates': null}, 'Missouri': {'percentVote': null, 'delegates': null}, 'Montana': {'percentVote': null, 'delegates': null}, 'Nebraska': {'percentVote': null, 'delegates': null}, 'Nevada': {'percentVote': null, 'delegates': null}, 'New Hampshire': {'percentVote': null, 'delegates': null}, 'New Jersey': {'percentVote': null, 'delegates': null}, 'New Mexico': {'percentVote': null, 'delegates': null}, 'New York': {'percentVote': null, 'delegates': null}, 'North Carolina': {'percentVote': null, 'delegates': null}, 'North Dakota': {'percentVote': null, 'delegates': null}, 'Ohio': {'percentVote': null, 'delegates': null}, 'Oklahoma': {'percentVote': null, 'delegates': null}, 'Oregon': {'percentVote': null, 'delegates': null}, 'Pennsylvania': {'percentVote': null, 'delegates': null}, 'Rhode Island': {'percentVote': null, 'delegates': null}, 'South Carolina': {'percentVote': null, 'delegates': null}, 'South Dakota': {'percentVote': null, 'delegates': null}, 'Tennessee': {'percentVote': null, 'delegates': null}, 'Texas': {'percentVote': null, 'delegates': null}, 'Utah': {'percentVote': null, 'delegates': null}, 'Vermont': {'percentVote': null, 'delegates': null}, 'Virgin Islands': {'percentVote': null, 'delegates': null},  'Virginia': {'percentVote': null, 'delegates': null}, 'Washington': {'percentVote': null, 'delegates': null}, 'West Virginia': {'percentVote': null, 'delegates': null}, 'Wisconsin': {'percentVote': null, 'delegates': null}, 'Wyoming': {'percentVote': null, 'delegates': null}, 'District of Columbia': {'percentVote': null, 'delegates': null}, 'Puerto Rico': {'percentVote': null, 'delegates': null}, 'Democrats Abroad': {'percentVote': null, 'delegates': null}}}
+
         },
         data: [],
         months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
@@ -466,13 +477,36 @@ export default {
 
       return monthNames[monthIndex] + ' ' + day + ', ' + year;
     },
-   calculateDelegates: function (candidate, state) {
+   getMonth: function() {
+      var monthNames = [
+        "January", "February", "March",
+        "April", "May", "June", "July",
+        "August", "September", "October",
+        "November", "December"
+      ];
+      if (!this.compDate) {return '- -'}
+      var date = new Date(this.compDate);
+      var monthIndex = date.getMonth();
+      return monthNames[monthIndex];
+   },
+   getDay: function() {
+      if (!this.compDate) {return '- -'}
+      var date = new Date(this.compDate);
+      var day = date.getDate();
+      return day;
+    },
+   calculateDelegates: function (state) {
        console.log('calculation delegates');
-       console.log(candidate);
        console.log(state);
-       var delegates = (this.candidates[candidate]['states'][state].percent/100)*25;
-       if (!delegates) {delegates = 0}
-       this.candidates[candidate]['states'][state].delegates = delegates;
+       for (var candidate in this.candidates) {
+           console.log(candidate);
+           var initialPercent = this.candidates[candidate]['states'][state].percentVote;
+           console.log(initialPercent);
+           if (initialPercent < 15) {
+               this.candidates[candidate]['states'][state].delegates = 0;
+           }
+           else {this.candidates[candidate]['states'][state].delegates = (initialPercent/100) * this.primaries_all_[state].delegates}
+       }
    }
   },
   created: function(){
