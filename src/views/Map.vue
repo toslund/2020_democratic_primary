@@ -163,8 +163,8 @@
                           </thead>
                           <tbody>
                             <tr v-for="candidate in candidates" :key="candidate.name">
-                              <th>{{ candidate.name }}</th>
-                              <td><input class="input is-primary" type="number" v-model.number="candidate['states'][selectedState].percentVote" @input="calculateState(selectedState)"></td>
+                                <th><h6 class="subtitle is-6">{{ candidate.name }}</h6></th>
+                              <td><input class="input is-small is-primary" type="number" v-model.number="candidate['states'][selectedState].percentVote" @input="calculateState(selectedState)"></td>
                               <td>{{ candidate['states'][selectedState].delegates }}</td>
                             </tr>
                           </tbody>
